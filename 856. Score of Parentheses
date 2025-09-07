@@ -1,0 +1,50 @@
+https://leetcode.com/problems/score-of-parentheses/description/
+
+
+class Solution{
+public:
+    int scoreOfParentheses(string s) {
+        int n = s.size(), i=0;
+        stack<int> st;
+        while(i<n){
+            if(s[i]=='('){
+                st.push(-1); i++;
+            }
+            else{
+                vector<int> temp;
+                while(st.top()!=-1){
+                    temp.push_back(st.top());
+                    st.pop();
+                }
+                st.pop();
+                if(temp.size()==0){
+                    st.push(1);
+                } // case : ()
+                else if(temp.size()==1){
+                    st.push(2*temp[0]);
+                }//case : (())
+                else{
+                    int ans=0;
+                    for(int j=0 ; j<temp.size() ; j++){
+                        ans+=temp[j];
+                    }//case :: min: (()()) , max:(()()()())
+                    st.push(ans*2);
+                }
+                i++;
+            }
+        }      
+        if(st.size()>1){ //case: ()()()()  stack will be -> 1,1,1,1
+            vector<int> temp;
+            while(!st.empty() && st.top()!=-1){
+                temp.push_back(st.top());
+                st.pop();
+            }
+            int ans=0;
+            for(int j=0 ; j<temp.size() ; j++){
+                ans+=temp[j];
+            }
+            st.push(ans);
+        }
+        return st.top();
+    }
+};
