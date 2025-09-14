@@ -48,3 +48,49 @@ public:
         return st.top();
     }
 };
+
+
+
+
+
+
+
+
+
+------------------------------------------------------
+
+better way 
+
+-------------------------------------------
+
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        int n = s.size();
+        stack<int> st;
+        int i=0;
+        while(i<n){
+            if(s[i]=='('){
+                st.push(-1);
+            }
+            else{
+                int count=0,sum=0;
+                while(!st.empty() && st.top()!=-1){
+                    count++;sum+=st.top();
+                    st.pop();
+                }
+                if(!st.empty() && st.top()==-1)st.pop();
+
+                if(count==0)st.push(1);
+                else st.push(sum*2);
+            }
+            i++;
+        }
+        int sum=0;
+        while(!st.empty()){
+            sum+=st.top();
+            st.pop();
+        }
+        return sum;
+    }
+};
